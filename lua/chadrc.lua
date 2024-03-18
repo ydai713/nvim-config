@@ -1,11 +1,11 @@
 local M = {}
 
 M.ui = {
-  theme = "chadracula",
-  transparency = true,
+  theme = "chadracula-evondev",
+  transparency = false,
   tabufline = {
     enabled = false,
-  }
+  },
 }
 
 return M

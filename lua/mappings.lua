@@ -10,7 +10,6 @@ map("n", "<leader>fm", function()
 	require("conform").format()
 end, { desc = "File Format with conform" })
 
-
 map("n", "<C-f>", "<cmd>:w<CR>", { desc = "󱕾 Save" })
 map("i", "<C-f>", "<cmd>:w<CR>", { desc = "󱕾 Save" })
 
