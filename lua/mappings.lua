@@ -52,3 +52,7 @@ map("n", "<leader>5", function()
 	local harpoon = require("harpoon")
 	harpoon:list():select(5)
 end, { desc = "󱪼 Navigate to file 5" })
+
+map("n", "<leader>b", "", { desc = "override" })
+map("n", "<leader>bc", "<cmd>:vs<CR>", { desc = "clone window" })
+map("n", "<leader>x", "<cmd>:q<CR>", { desc = "quit" })
