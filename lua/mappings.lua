@@ -53,6 +53,11 @@ map("n", "<leader>5", function()
 	harpoon:list():select(5)
 end, { desc = "󱪼 Navigate to file 5" })
 
-map("n", "<leader>b", "", { desc = "override" })
-map("n", "<leader>bc", "<cmd>:vs<CR>", { desc = "clone window" })
 map("n", "<leader>x", "<cmd>:q<CR>", { desc = "quit" })
+
+map("n", "<leader>bc", "<cmd>:vs<CR>", { desc = "clone window" })
+map("n", "<leader>bw", require("functions.window").swap_windows, { desc = "Swap windows" })
+
+-- override
+map("n", "<leader>b", "", { desc = "override" })
+map("n", "<tab>", "", { desc = "override" })
