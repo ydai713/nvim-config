@@ -9,6 +9,7 @@ local options = {
 		javascriptreact = { { "prettierd", "prettier" } },
 		typescriptreact = { { "prettierd", "prettier" } },
 		terraform = { "terraform_fmt" },
+		sql = { "sqlfluff" },
 	},
 }
 

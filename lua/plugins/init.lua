@@ -80,9 +80,9 @@ return {
 		opts = {
 			sources = {
 				{ name = "path", group_index = 1 },
-				{ name = "copilot", group_index = 2 },
-				{ name = "nvim_lsp", group_index = 3 },
-				{ name = "luasnip", group_index = 4 },
+				{ name = "luasnip", group_index = 1 },
+				{ name = "copilot", group_index = 1 },
+				{ name = "nvim_lsp", group_index = 1 },
 			},
 		},
 	},
