@@ -68,3 +68,4 @@ map("n", "<leader>dl", require("functions.dbt").dbt_lineage, { desc = " dbt line
 map("n", "<leader>dr", require("functions.dbt").dbt_run, { desc = " dbt run" })
 map("n", "<leader>dt", require("functions.dbt").dbt_show_table, { desc = " dbt show table" })
 map("n", "<leader>dj", require("functions.dbt").dbt_show_json, { desc = " dbt show json" })
+map("n", "<leader>de", require("functions.dbt").dbt_run_full_refresh, { desc = " dbt run full refresh" })

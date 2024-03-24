@@ -173,6 +173,66 @@ local function dbt_run()
   end
 end
 
+local function dbt_run_full_refresh()
+  local bufname = vim.api.nvim_buf_get_name(0)
+  if bufname:match("^.+(%..+)$") == ".sql" then
+    -- Extract filename without extension
+    local filename = bufname:match("^.+/(.+)%..+$")
+    -- Command to run the SQL file using dbt
+    local cmd = "dbt --no-use-colors run --full-refresh --fail-fast --defer --state ./prod --select " .. filename
+
+    -- Check if the output buffer already exists and is valid
+    if not _G.dbt_run_output_buf or not vim.api.nvim_buf_is_valid(_G.dbt_run_output_buf) then
+      -- Create a new buffer for the output
+      _G.dbt_run_output_buf = vim.api.nvim_create_buf(false, true)
+      -- Optionally, name the buffer for easier identification
+      vim.api.nvim_buf_set_name(_G.dbt_run_output_buf, "DBT Run Output")
+    end
+
+    -- Clear existing lines in the output buffer
+    vim.api.nvim_buf_set_lines(_G.dbt_run_output_buf, 0, -1, false, {})
+
+    -- Ensure the output buffer is displayed in a window
+    local win_found = false
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_buf(win) == _G.dbt_run_output_buf then
+        win_found = true
+        break
+      end
+    end
+    if not win_found then
+      -- Split the window and display the output buffer
+      vim.cmd("vsplit")
+      vim.api.nvim_win_set_buf(0, _G.dbt_run_output_buf)
+    end
+
+    -- Function to handle command output and display it in the output buffer
+    local function on_event(job_id, data, event)
+      if event == "stdout" or event == "stderr" then
+        for _, line in ipairs(data) do
+          vim.api.nvim_buf_set_lines(_G.dbt_run_output_buf, -1, -1, false, { line })
+        end
+      end
+    end
+
+    -- Start the job
+    vim.fn.jobstart(cmd, {
+      on_stdout = on_event,
+      on_stderr = on_event,
+      on_exit = function(job_id, code, event)
+        if code ~= 0 then
+          vim.api.nvim_buf_set_lines(
+            _G.dbt_run_output_buf,
+            -1,
+            -1,
+            false,
+            { "dbt run finished with error code: " .. code }
+          )
+        end
+      end,
+    })
+  end
+end
 local function dbt_show_table()
   local bufname = vim.api.nvim_buf_get_name(0)
   if bufname:match("^.+(%..+)$") == ".sql" then
@@ -306,6 +366,7 @@ M.dbt_compile = dbt_compile
 M.dbt_format = dbt_format
 M.dbt_lineage = dbt_lineage
 M.dbt_run = dbt_run
+M.dbt_run_full_refresh = dbt_run_full_refresh
 M.dbt_show_table = dbt_show_table
 M.dbt_show_json = dbt_show_json
 
