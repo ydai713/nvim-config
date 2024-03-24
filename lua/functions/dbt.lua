@@ -245,21 +245,21 @@ local function dbt_show_json()
     local cmd = "dbt --no-use-colors show --output json --defer --state ./prod --full-refresh --select " .. filename
 
     -- Check if the output buffer already exists and is valid
-    if not _G.dbt_show_output_buf or not vim.api.nvim_buf_is_valid(_G.dbt_show_output_buf) then
+    if not _G.dbt_show_output_json_buf or not vim.api.nvim_buf_is_valid(_G.dbt_show_output_json_buf) then
       -- Create a new buffer for the output
-      _G.dbt_show_output_buf = vim.api.nvim_create_buf(false, true)
+      _G.dbt_show_output_json_buf = vim.api.nvim_create_buf(false, true)
       -- Optionally, name the buffer for easier identification
-      vim.api.nvim_buf_set_name(_G.dbt_show_output_buf, "DBT Show Output")
-      vim.api.nvim_buf_set_option(_G.dbt_show_output_buf, "filetype", "json")
+      vim.api.nvim_buf_set_name(_G.dbt_show_output_json_buf, "DBT Show Output Json")
+      vim.api.nvim_buf_set_option(_G.dbt_show_output_json_buf, "filetype", "json")
     end
 
     -- Clear existing lines in the output buffer
-    vim.api.nvim_buf_set_lines(_G.dbt_show_output_buf, 0, -1, false, {})
+    vim.api.nvim_buf_set_lines(_G.dbt_show_output_json_buf, 0, -1, false, {})
 
     -- Ensure the output buffer is displayed in a window
     local win_found = false
     for _, win in ipairs(vim.api.nvim_list_wins()) do
-      if vim.api.nvim_win_get_buf(win) == _G.dbt_show_output_buf then
+      if vim.api.nvim_win_get_buf(win) == _G.dbt_show_output_json_buf then
         win_found = true
         break
       end
@@ -267,7 +267,7 @@ local function dbt_show_json()
     if not win_found then
       -- Split the window and display the output buffer
       vim.cmd("vsplit")
-      vim.api.nvim_win_set_buf(0, _G.dbt_show_output_buf)
+      vim.api.nvim_win_set_buf(0, _G.dbt_show_output_json_buf)
     end
 
     -- Function to handle command output and display it in the output buffer
@@ -275,9 +275,9 @@ local function dbt_show_json()
       if event == "stdout" or event == "stderr" then
         for _, line in ipairs(data) do
           if line.match(line, "^%d+:%d+:%d+%s+%{") then
-            vim.api.nvim_buf_set_lines(_G.dbt_show_output_buf, -1, -1, false, { "{" })
+            vim.api.nvim_buf_set_lines(_G.dbt_show_output_json_buf, -1, -1, false, { "{" })
           elseif line ~= "" and not line.match(line, "^%d+:%d+:%d+") then
-            vim.api.nvim_buf_set_lines(_G.dbt_show_output_buf, -1, -1, false, { line })
+            vim.api.nvim_buf_set_lines(_G.dbt_show_output_json_buf, -1, -1, false, { line })
           end
         end
       end
@@ -290,7 +290,7 @@ local function dbt_show_json()
       on_exit = function(job_id, code, event)
         if code ~= 0 then
           vim.api.nvim_buf_set_lines(
-            _G.dbt_show_output_buf,
+            _G.dbt_show_output_json_buf,
             -1,
             -1,
             false,
