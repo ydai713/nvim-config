@@ -1,6 +1,6 @@
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/nvchad/base46/"
 vim.g.mapleader = " "
-vim.g.ftplugin_sql_omni_key = ""
+vim.g.ftplugin_sql_omni_key = "<C-/>" -- it is just to remove C-C keymapping in sql
 
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
