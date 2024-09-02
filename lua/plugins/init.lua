@@ -28,7 +28,9 @@ return {
     "kdheepak/lazygit.nvim",
     cmd = "LazyGit",
   },
-
+  {
+    "lewis6991/gitsigns.nvim",
+  },
   -- LSP dependencies management
   {
     "williamboman/mason.nvim",

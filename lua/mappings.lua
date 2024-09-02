@@ -69,3 +69,5 @@ map("n", "<leader>dr", require("functions.dbt").dbt_run, { desc = " dbt run" })
 map("n", "<leader>dt", require("functions.dbt").dbt_show_table, { desc = " dbt show table" })
 map("n", "<leader>dj", require("functions.dbt").dbt_show_json, { desc = " dbt show json" })
 map("n", "<leader>de", require("functions.dbt").dbt_run_full_refresh, { desc = " dbt run full refresh" })
+
+map("n", "<leader>tt", require("base46").toggle_transparency, { desc = "toggle toggle_transparency" })
